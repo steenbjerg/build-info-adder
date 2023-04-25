@@ -1,0 +1,23 @@
+name: 'Build Information Adder'
+description: 'Adds build info to the source code'
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: 17
+        distribution: temurin
+    - id: install-jbang
+      run: curl -Ls https://sh.jbang.dev | bash -s - app setup
+      shell: bash
+    - id: action
+      run: ~/.jbang/bin/jbang --repos 'github=https://maven.pkg.github.com/my/build-info-adder/' --repos 'mavencentral' dk.stonemountain.github:build-info-adder:999-SNAPSHOT
+      shell: bash
+      env:
+        JSON_INPUTS: ${{ toJSON(inputs) }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}

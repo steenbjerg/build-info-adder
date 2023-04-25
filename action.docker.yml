@@ -1,0 +1,9 @@
+name: 'Build Information Adder'
+description: 'Adds build info to the source code'
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: false
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/my/build-info-adder:main'
